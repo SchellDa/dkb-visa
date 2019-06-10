@@ -394,7 +394,7 @@ class DkbConverter(object):
         yield 'N' + self.CREDIT_CARD_NAME
         yield '^'
         yield '!Type:Bank'
-        lines = self.csv_text.split('\n')
+        lines = self.csv_text.decode().split('\n')
         reader = csv.reader(lines, delimiter=";")
         for x in xrange(self.SKIP_LINES):
             reader.next()
@@ -423,7 +423,7 @@ class DkbConverter(object):
         logger.info("Exporting qif to %s", path)
         with open(path, "wb") as f:
             for line in self.get_qif_lines():
-                f.write(line + "\n")
+                f.write((line + "\n").encode('utf-8'))
 
 if __name__ == '__main__':
     from getpass import getpass
@@ -464,7 +464,7 @@ if __name__ == '__main__':
 
     from_date = args.from_date
     while not is_valid_date(from_date):
-        from_date = raw_input("Start time: ")
+        from_date = input("Start time: ")
     if not is_valid_date(args.to_date):
         cli.error("Please specify a valid end time")
     if not args.output:
@@ -499,7 +499,7 @@ if __name__ == '__main__':
             f = sys.stdout
         else:
             f = open(args.output, 'w')
-        f.write(csv_text)
+        f.write(str(csv_text))
     else:
         dkb2qif = DkbConverter(csv_text, cc_name=args.qif_account)
         dkb2qif.export_to(args.output)
