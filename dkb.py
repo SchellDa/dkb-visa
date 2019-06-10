@@ -396,8 +396,8 @@ class DkbConverter(object):
         yield '!Type:Bank'
         lines = self.csv_text.decode().split('\n')
         reader = csv.reader(lines, delimiter=";")
-        for x in xrange(self.SKIP_LINES):
-            reader.next()
+        # for x in xrange(self.SKIP_LINES):
+        #     reader.next()
         for line in reader:
             if len(line) < self.REQUIRED_FIELDS:
                 continue
